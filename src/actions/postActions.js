@@ -1,3 +1,13 @@
-import { GET_USERS, NEW_POST } from './types';
+import { GET_USERS } from './types';
+import axios from 'axios';
+
+export const getUsersAction = () => dispatch => {
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+        .then(res => dispatch({
+            type: GET_USERS,
+            payload: res.data
+        }))
+}
+
 
 
