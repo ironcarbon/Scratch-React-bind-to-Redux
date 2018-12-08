@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class extends Component {
 
     state = {
         title: "",
-        body: "",
+        body: ""
     }
 
 
     onSubmitHandler = (e) => {
+        const post = {
+            title: this.state.title,
+            body: this.state.body
+        }
+
+
+        axios.post('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        })
+            .then(res => console.log(res))
+
 
         e.preventDefault();
     }
