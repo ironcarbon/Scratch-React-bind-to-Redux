@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { newPostAction } from '../actions/postActions';
 
-export default class extends Component {
+class Postform extends Component {
 
     state = {
         title: "",
@@ -10,22 +12,7 @@ export default class extends Component {
 
 
     onSubmitHandler = (e) => {
-        const post = {
-            title: this.state.title,
-            body: this.state.body
-        }
-
-
-        axios.post('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(post)
-        })
-            .then(res => console.log(res))
-
-
+        this.props.newPostAction(this.state);
         e.preventDefault();
     }
 
@@ -44,11 +31,19 @@ export default class extends Component {
                         <textarea name="body" value={this.state.body} onChange={e => this.setState({ body: e.target.value })} />
                     </div>
                     <div>
-                        <button type="submit">Submit</button>
+                        <button type="submit"
+                            onClick={() => this.onSubmitHandler}
+                        >Submit</button>
                     </div>
                 </form>
-            </div>
+            </div >
         )
     }
 }
 
+const mapStateToProps = state => {
+    console.log(state);
+    return { state };
+}
+
+export default connect(mapStateToProps, { newPostAction })(Postform)
